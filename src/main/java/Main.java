@@ -1,5 +1,3 @@
-import executor.MyExecutorService;
-import fork.MyForkJoinPool;
 import thread.Counter;
 import thread.MyRunnable;
 import thread.MyThread;
@@ -12,10 +10,5 @@ public class Main {
 
         MyThread myThread = new MyThread(counter);
         myThread.start();
-
-        MyExecutorService myExecutorService = new MyExecutorService();
-        myExecutorService.sum();
-
-        MyForkJoinPool myForkJoinPool = new MyForkJoinPool();
     }
 }
