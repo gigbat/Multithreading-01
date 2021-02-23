@@ -9,11 +9,9 @@ public class MyRunnable implements Runnable {
     }
 
     public void run() {
-        synchronized (this.counter) {
-            for (int i = 0; i <= 100; i++) {
-                logger.info(Thread.currentThread().getName() + " value = "
-                        + counter.calculate());
-            }
+        while (counter.getValue() < 100) {
+            logger.info(Thread.currentThread().getName() + " value = "
+                    + counter.increment());
         }
     }
 }
