@@ -1,9 +1,10 @@
 public class Main {
     public static void main(String[] args) {
-        Thread myRunnable = new Thread(new MyRunnable());
+        Counter counter = new Counter();
+        Thread myRunnable = new Thread(new MyRunnable(counter));
         myRunnable.start();
 
-        MyThread myThread = new MyThread();
+        MyThread myThread = new MyThread(counter);
         myThread.start();
     }
 }
