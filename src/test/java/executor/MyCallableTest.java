@@ -9,29 +9,29 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 class MyCallableTest {
-    private static Callable<Integer> callable1;
-    private static Callable<Integer> callable2;
-    private static Callable<Integer> callable3;
-    private static Callable<Integer> callable4;
-    private static Callable<Integer> callable5;
+    private static Callable<Long> callable1;
+    private static Callable<Long> callable2;
+    private static Callable<Long> callable3;
+    private static Callable<Long> callable4;
+    private static Callable<Long> callable5;
 
-    private static FutureTask<Integer> futureTask1;
-    private static FutureTask<Integer> futureTask2;
-    private static FutureTask<Integer> futureTask3;
-    private static FutureTask<Integer> futureTask4;
-    private static FutureTask<Integer> futureTask5;
+    private static FutureTask<Long> futureTask1;
+    private static FutureTask<Long> futureTask2;
+    private static FutureTask<Long> futureTask3;
+    private static FutureTask<Long> futureTask4;
+    private static FutureTask<Long> futureTask5;
 
     @BeforeAll
     private static void createCallable() {
-        callable1 = new MyCallable(Stream.iterate(1, n -> n + 1).limit(1_000_000)
+        callable1 = new MyCallable(Stream.iterate(1L, n -> n + 1L).limit(1_000_000)
                 .collect(Collectors.toList()));
-        callable2 = new MyCallable(Stream.iterate(1, n -> n + 1).limit(700_000)
+        callable2 = new MyCallable(Stream.iterate(1L, n -> n + 1L).limit(700_000)
                 .collect(Collectors.toList()));
-        callable3 = new MyCallable(Stream.iterate(1, n -> n + 1).limit(600_000)
+        callable3 = new MyCallable(Stream.iterate(1L, n -> n + 1L).limit(600_000)
                 .collect(Collectors.toList()));
-        callable4 = new MyCallable(Stream.iterate(1, n -> n + 1).limit(500_000)
+        callable4 = new MyCallable(Stream.iterate(1L, n -> n + 1L).limit(500_000)
                 .collect(Collectors.toList()));
-        callable5 = new MyCallable(Stream.iterate(1, n -> n + 1).limit(400_000)
+        callable5 = new MyCallable(Stream.iterate(1L, n -> n + 1L).limit(400_000)
                 .collect(Collectors.toList()));
     }
 
@@ -52,10 +52,10 @@ class MyCallableTest {
 
     @Test
     void getSum_Ok() throws Exception {
-        Assertions.assertEquals(1784293664, futureTask1.get());
-        Assertions.assertEquals(187214128, futureTask2.get());
-        Assertions.assertEquals(-388326432, futureTask3.get());
-        Assertions.assertEquals(446198416, futureTask4.get());
-        Assertions.assertEquals(-1604178624, futureTask5.get());
+        Assertions.assertEquals(500000500000L, futureTask1.get());
+        Assertions.assertEquals(245000350000L, futureTask2.get());
+        Assertions.assertEquals(180000300000L, futureTask3.get());
+        Assertions.assertEquals(125000250000L, futureTask4.get());
+        Assertions.assertEquals(80000200000L, futureTask5.get());
     }
 }

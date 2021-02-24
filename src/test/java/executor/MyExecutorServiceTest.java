@@ -3,7 +3,6 @@ package executor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -16,15 +15,15 @@ class MyExecutorServiceTest {
 
     @BeforeAll
     private static void createExecutorService() {
-        executor1 = new MyExecutorService(Stream.iterate(1, n -> n + 1).limit(1_000_000)
+        executor1 = new MyExecutorService(Stream.iterate(1L, n -> n + 1L).limit(1_000_000)
                 .collect(Collectors.toList()));
-        executor2 = new MyExecutorService(Stream.iterate(1, n -> n + 1).limit(700_000)
+        executor2 = new MyExecutorService(Stream.iterate(1L, n -> n + 1L).limit(700_000)
                 .collect(Collectors.toList()));
-        executor3 = new MyExecutorService(Stream.iterate(1, n -> n + 1).limit(600_000)
+        executor3 = new MyExecutorService(Stream.iterate(1L, n -> n + 1L).limit(600_000)
                 .collect(Collectors.toList()));
-        executor4 = new MyExecutorService(Stream.iterate(1, n -> n + 1).limit(500_000)
+        executor4 = new MyExecutorService(Stream.iterate(1L, n -> n + 1L).limit(500_000)
                 .collect(Collectors.toList()));
-        executor5 = new MyExecutorService(Stream.iterate(1, n -> n + 1).limit(400_000)
+        executor5 = new MyExecutorService(Stream.iterate(1L, n -> n + 1L).limit(400_000)
                 .collect(Collectors.toList()));
     }
 

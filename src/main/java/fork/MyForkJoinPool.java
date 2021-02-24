@@ -6,20 +6,20 @@ import java.util.List;
 import java.util.concurrent.ForkJoinTask;
 import java.util.concurrent.RecursiveTask;
 
-public class MyForkJoinPool extends RecursiveTask<Integer> {
+public class MyForkJoinPool extends RecursiveTask<Long> {
     private static final int THRESHOLD = 500_000;
-    private List<Integer> numbers;
+    private List<Long> numbers;
 
-    public MyForkJoinPool(List<Integer> numbers) {
+    public MyForkJoinPool(List<Long> numbers) {
         this.numbers = numbers;
     }
 
     @Override
-    protected Integer compute() {
+    protected Long compute() {
         if (numbers.size() > THRESHOLD) {
             return ForkJoinTask.invokeAll(createSubtasks())
                     .stream()
-                    .mapToInt(ForkJoinTask::join)
+                    .mapToLong(ForkJoinTask::join)
                     .sum();
         }
         return processing();
@@ -32,7 +32,7 @@ public class MyForkJoinPool extends RecursiveTask<Integer> {
         return dividedTasks;
     }
 
-    private Integer processing() {
-        return numbers.stream().mapToInt(Integer::valueOf).sum();
+    private Long processing() {
+        return numbers.stream().mapToLong(Long::valueOf).sum();
     }
 }

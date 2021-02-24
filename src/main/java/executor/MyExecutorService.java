@@ -14,20 +14,20 @@ public class MyExecutorService {
     private static final int THREADS = Runtime.getRuntime().availableProcessors();
     private static final Logger logger = Logger.getLogger(MyThread.class);
 
-    private List<Integer> numbers;
+    private List<Long> numbers;
 
-    public MyExecutorService(List<Integer> numbers) {
+    public MyExecutorService(List<Long> numbers) {
         this.numbers = numbers;
     }
 
     public Integer calculate() {
         ExecutorService executor = Executors.newFixedThreadPool(THREADS);
 
-        List<List<Integer>> partition = ListUtils.partition(numbers, numbers.size() / THREADS);
-        List<MyCallable> callables = partition.stream()
+        List<List<Long>> partOfTheLists = ListUtils.partition(numbers, numbers.size() / THREADS);
+        List<MyCallable> callables = partOfTheLists.stream()
                 .map(x -> new MyCallable(x))
                 .collect(Collectors.toList());
-        List<Future<Integer>> futures = null;
+        List<Future<Long>> futures = null;
 
         try {
             futures = executor.invokeAll(callables);
@@ -38,9 +38,9 @@ public class MyExecutorService {
         return getSum(futures);
     }
 
-    private int getSum(List<Future<Integer>> futures) {
+    private int getSum(List<Future<Long>> futures) {
         int sum = 0;
-        for (Future<Integer> future : futures) {
+        for (Future<Long> future : futures) {
             try {
                 sum += future.get();
             } catch (InterruptedException | ExecutionException e) {
