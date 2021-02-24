@@ -1,10 +1,14 @@
 package executor;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import org.apache.commons.collections4.ListUtils;
 import org.apache.log4j.Logger;
 import thread.MyThread;
 
@@ -20,13 +24,31 @@ public class MyExecutorService {
 
     public Integer calculate() {
         ExecutorService executor = Executors.newFixedThreadPool(THREADS);
-        Future<Integer> future = executor.submit(new MyCallable(numbers));
-        executor.shutdown();
+
+        List<List<Integer>> partition = ListUtils.partition(numbers, numbers.size() / THREADS);
+        List<MyCallable> callables = partition.stream()
+                .map(x -> new MyCallable(x))
+                .collect(Collectors.toList());
+        List<Future<Integer>> futures = null;
+
         try {
-            return future.get();
-        } catch (InterruptedException | ExecutionException e) {
-            logger.info("Can't calculate executor service", e);
+            futures = executor.invokeAll(callables);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-        throw new RuntimeException("Can't calculate executor service");
+        executor.shutdown();
+        return getSum(futures);
+    }
+
+    private int getSum(List<Future<Integer>> futures) {
+        int sum = 0;
+        for (Future<Integer> future : futures) {
+            try {
+                sum += future.get();
+            } catch (InterruptedException | ExecutionException e) {
+                logger.info("Can't calculate executor service", e);
+            }
+        }
+        return sum;
     }
 }
